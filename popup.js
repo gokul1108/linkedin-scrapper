@@ -1,6 +1,28 @@
+
+document.getElementById("login-button").addEventListener("click", () => {
+  const email = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+  const scrapButton= document.getElementById("scrape-button");
+  chrome.runtime.sendMessage({ action: "login", email, password }, (response) => {
+    console.log(response.status);
+    if (response.status === 'Login successful') {
+      // Store the token in local storage
+      localStorage.setItem('jwtToken', response.token);
+      alert('Login successful');
+      scrapButton.style.display = "block";
+    } else {
+      alert('Login failed');
+    }
+  });
+});
+
+
+
 document.getElementById("scrape-button").addEventListener("click", () => {
   chrome.runtime.sendMessage({ action: "scrapeProfiles" }, (response) => {
     console.log(response.status);
+
+
   });
 });
 
